@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velarasan P — Data Analyst &amp; Power BI Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --ink:#0d1117;
+  --panel:#141b22;
+  --panel-2:#1a232c;
+  --line:#2a343e;
+  --text:#eef2f5;
+  --text-dim:#93a1ac;
+  --gold:#f2b134;
+  --teal:#33c9b0;
+  --red:#e2584f;
+  --font-display:'Space Grotesk',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--text);font-family:var(--font-body);line-height:1.55;font-size:15px}
+a{color:inherit}
+.container{max-width:1180px;margin:0 auto;padding:0 28px}
+::selection{background:var(--gold);color:#0d1117}
+
+/* ---------- NAV ---------- */
+header{position:sticky;top:0;z-index:200;background:rgba(13,17,23,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 28px;max-width:1180px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:17px;letter-spacing:.2px}
+.brand-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--teal));display:flex;align-items:center;justify-content:center;color:#0d1117;font-weight:700;font-size:13px;font-family:var(--font-mono)}
+.navlinks{display:flex;gap:28px;font-size:13px;font-weight:500;color:var(--text-dim)}
+.navlinks a{text-decoration:none;transition:color .15s}
+.navlinks a:hover{color:var(--text)}
+.nav-cta{font-size:12px;font-weight:600;background:var(--text);color:var(--ink);padding:9px 16px;border-radius:7px;text-decoration:none;font-family:var(--font-mono)}
+.navlinks-wrap{display:flex;align-items:center;gap:32px}
+@media(max-width:760px){.navlinks{display:none}}
+
+/* ---------- HERO ---------- */
+.hero{padding:72px 0 56px;border-bottom:1px solid var(--line)}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}}
+.eyebrow{font-family:var(--font-mono);font-size:12px;color:var(--teal);letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px;margin-bottom:18px}
+.eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 3px rgba(51,201,176,.18)}
+.hero h1{font-family:var(--font-display);font-size:52px;line-height:1.08;font-weight:700;letter-spacing:-1px;margin-bottom:18px}
+.hero h1 span{color:var(--gold)}
+.hero p.lede{font-size:16px;color:var(--text-dim);max-width:520px;margin-bottom:30px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:34px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;font-family:var(--font-body);border:1px solid transparent;cursor:pointer;transition:all .18s}
+.btn-primary{background:var(--gold);color:#1a1300}
+.btn-primary:hover{background:#ffc862}
+.btn-ghost{border-color:var(--line);color:var(--text)}
+.btn-ghost:hover{border-color:var(--text-dim)}
+.hero-meta{display:flex;gap:22px;flex-wrap:wrap;font-family:var(--font-mono);font-size:12px;color:var(--text-dim)}
+.hero-meta a{text-decoration:none;color:var(--text-dim);transition:color .15s}
+.hero-meta a:hover{color:var(--teal)}
+
+/* live dashboard widget in hero */
+.mini-dash{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;position:relative;overflow:hidden}
+.mini-dash::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--teal))}
+.md-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.md-title{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase}
+.md-dot{display:flex;gap:5px}
+.md-dot span{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.kpi{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:13px 14px}
+.kpi .n{font-family:var(--font-display);font-size:24px;font-weight:700}
+.kpi .n.gold{color:var(--gold)}
+.kpi .n.teal{color:var(--teal)}
+.kpi .l{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.6px;margin-top:3px;font-family:var(--font-mono)}
+.chartbox{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:12px;height:150px}
+
+/* ---------- SECTION HEADS ---------- */
+section{padding:64px 0}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:34px}
+.sec-num{font-family:var(--font-mono);font-size:12px;color:var(--gold)}
+.sec-head h2{font-family:var(--font-display);font-size:26px;font-weight:700;letter-spacing:-.4px}
+.sec-line{flex:1;height:1px;background:var(--line)}
+
+/* ---------- ABOUT ---------- */
+.about{border-bottom:1px solid var(--line)}
+.about p{color:var(--text-dim);max-width:760px;font-size:15px}
+.about p strong{color:var(--text);font-weight:600}
+
+/* ---------- SKILLS ---------- */
+.skills{border-bottom:1px solid var(--line)}
+.skill-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:820px){.skill-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.skill-grid{grid-template-columns:1fr}}
+.skill-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}
+.skill-card h3{font-family:var(--font-mono);font-size:11px;color:var(--teal);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.chip-row{display:flex;flex-wrap:wrap;gap:7px}
+.chip{background:var(--panel-2);border:1px solid var(--line);color:var(--text-dim);font-size:12px;padding:6px 10px;border-radius:6px}
+
+/* ---------- EXPERIENCE ---------- */
+.exp{border-bottom:1px solid var(--line)}
+.exp-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:28px}
+.exp-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.exp-role{font-family:var(--font-display);font-size:19px;font-weight:700}
+.exp-org{color:var(--text-dim);font-size:13px;margin-top:3px}
+.exp-tag{font-family:var(--font-mono);font-size:11px;color:var(--gold);border:1px solid rgba(242,177,52,.35);padding:5px 10px;border-radius:20px;white-space:nowrap}
+.exp-list{list-style:none;display:grid;gap:10px}
+.exp-list li{position:relative;padding-left:20px;color:var(--text-dim);font-size:14px}
+.exp-list li::before{content:'▸';position:absolute;left:0;color:var(--teal)}
+.exp-list li strong{color:var(--text);font-weight:600}
+
+/* ---------- PROJECTS ---------- */
+.proj-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:820px){.proj-grid{grid-template-columns:1fr}}
+.proj-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:26px;display:flex;flex-direction:column;transition:border-color .2s, transform .2s}
+.proj-card:hover{border-color:var(--teal);transform:translateY(-3px)}
+.proj-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.proj-domain{font-family:var(--font-mono);font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px}
+.proj-period{font-family:var(--font-mono);font-size:10px;color:var(--text-dim)}
+.proj-card h3{font-family:var(--font-display);font-size:19px;font-weight:700;margin:6px 0 12px}
+.proj-sar{font-size:13px;color:var(--text-dim);margin-bottom:16px}
+.proj-sar b{color:var(--text)}
+.proj-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.proj-tags span{font-size:11px;background:var(--panel-2);border:1px solid var(--line);color:var(--text-dim);padding:4px 9px;border-radius:5px;font-family:var(--font-mono)}
+.proj-foot{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap}
+.proj-btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:9px 14px;border-radius:7px;text-decoration:none;font-family:var(--font-body)}
+.proj-btn.live{background:var(--teal);color:#04231d}
+.proj-btn.live:hover{background:#5fe0c8}
+.proj-btn.dl{border:1px solid var(--line);color:var(--text)}
+.proj-btn.dl:hover{border-color:var(--text-dim)}
+.proj-btn.soon{border:1px dashed var(--line);color:var(--text-dim);cursor:default}
+.result-pill{display:inline-block;font-family:var(--font-mono);font-size:11px;color:var(--gold);background:rgba(242,177,52,.08);border:1px solid rgba(242,177,52,.25);padding:4px 10px;border-radius:20px;margin-bottom:14px}
+
+/* ---------- EDUCATION ---------- */
+.edu{border-bottom:1px solid var(--line)}
+.edu-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.edu-card h3{font-family:var(--font-display);font-size:17px;font-weight:700}
+.edu-card p{color:var(--text-dim);font-size:13px;margin-top:4px}
+.edu-year{font-family:var(--font-mono);font-size:12px;color:var(--text-dim);border:1px solid var(--line);padding:6px 12px;border-radius:20px}
+
+/* ---------- CONTACT ---------- */
+.contact{text-align:center;padding:72px 0}
+.contact h2{font-family:var(--font-display);font-size:32px;font-weight:700;margin-bottom:14px}
+.contact p{color:var(--text-dim);margin-bottom:30px}
+.contact-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+footer{border-top:1px solid var(--line);padding:26px 0;text-align:center;font-family:var(--font-mono);font-size:11px;color:var(--text-dim)}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <div class="brand"><span class="brand-mark">VP</span> Velarasan P</div>
+    <div class="navlinks-wrap">
+      <div class="navlinks">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#education">Education</a>
+      </div>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div class="eyebrow">Available for opportunities</div>
+      <h1>Turning raw data into<br><span>executive-ready</span> decisions.</h1>
+      <p class="lede">Data Analyst &amp; Power BI Developer with 4+ years building end-to-end BI solutions across Banking, Payments and Insurance — from Star Schema models and SSIS pipelines to dashboards stakeholders actually use.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View Live Dashboards ↓</a>
+        <a href="mailto:velarasan.analytics@gmail.com" class="btn btn-ghost">Get in Touch</a>
+      </div>
+      <div class="hero-meta">
+        <span>📍 Chennai, Tamil Nadu, India</span>
+        <a href="tel:+919025878029">+91 90258 78029</a>
+        <a href="mailto:velarasan.analytics@gmail.com">velarasan.analytics@gmail.com</a>
+      </div>
+    </div>
+    <div class="mini-dash">
+      <div class="md-head">
+        <span class="md-title">// Career at a glance</span>
+        <span class="md-dot"><span></span><span></span><span></span></span>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi"><div class="n gold">4+</div><div class="l">Years Experience</div></div>
+        <div class="kpi"><div class="n teal">40%</div><div class="l">Manual Effort Cut</div></div>
+        <div class="kpi"><div class="n gold">30%</div><div class="l">Faster Dashboards</div></div>
+        <div class="kpi"><div class="n teal">3</div><div class="l">Domains Served</div></div>
+      </div>
+      <div class="chartbox"><canvas id="skillRadar"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="container">
+    <div class="sec-head"><span class="sec-num">01</span><h2>About</h2><div class="sec-line"></div></div>
+    <p>I'm a Data Analyst and Power BI Developer who owns reporting projects end-to-end — from raw, fragmented data to <strong>executive-ready dashboards</strong>. My work spans <strong>Banking, Payments and Insurance</strong>, building optimized Star Schema models, automating SQL Server/SSIS ETL pipelines, and writing advanced DAX that turns operational data into decisions. I've cut manual reporting effort by <strong>40%</strong> and improved dashboard performance by up to <strong>30%</strong> through query and model optimization, while working directly with business stakeholders in Agile teams to translate ambiguous requirements into secure, self-service reporting.</p>
+  </div>
+</section>
+
+<section class="skills" id="skills">
+  <div class="container">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Core Technical Skills</h2><div class="sec-line"></div></div>
+    <div class="skill-grid">
+      <div class="skill-card">
+        <h3>BI &amp; Visualization</h3>
+        <div class="chip-row">
+          <span class="chip">Power BI Desktop</span><span class="chip">Power BI Service</span><span class="chip">Power BI Gateway</span><span class="chip">DAX</span><span class="chip">Power Query (M)</span><span class="chip">KPI Dashboards</span><span class="chip">Tableau</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Databases &amp; Query Optimization</h3>
+        <div class="chip-row">
+          <span class="chip">SQL Server</span><span class="chip">MySQL</span><span class="chip">T-SQL</span><span class="chip">Stored Procedures</span><span class="chip">Views</span><span class="chip">Query Optimization</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>ETL &amp; Data Engineering</h3>
+        <div class="chip-row">
+          <span class="chip">SSIS</span><span class="chip">SSRS</span><span class="chip">ETL Pipelines</span><span class="chip">Data Integration</span><span class="chip">Data Validation</span><span class="chip">Report Automation</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Data Modeling &amp; Governance</h3>
+        <div class="chip-row">
+          <span class="chip">Star Schema Design</span><span class="chip">Row-Level Security</span><span class="chip">Data Modeling</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Programming &amp; Automation</h3>
+        <div class="chip-row">
+          <span class="chip">Python (Pandas, NumPy)</span><span class="chip">Advanced Excel</span><span class="chip">VBA / Macros</span><span class="chip">XLOOKUP / VLOOKUP</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Ways of Working</h3>
+        <div class="chip-row">
+          <span class="chip">Agile Scrum</span><span class="chip">Requirements Gathering</span><span class="chip">Stakeholder Management</span><span class="chip">Cross-functional Collaboration</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="exp" id="experience">
+  <div class="container">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Experience</h2><div class="sec-line"></div></div>
+    <div class="exp-card">
+      <div class="exp-top">
+        <div>
+          <div class="exp-role">Data Analyst</div>
+          <div class="exp-org">Accenture &nbsp;·&nbsp; Payroll: Prolax IT Solutions Pvt. Ltd</div>
+        </div>
+        <span class="exp-tag">Current Role</span>
+      </div>
+      <ul class="exp-list">
+        <li>Own the design and delivery of interactive <strong>Power BI dashboards and executive reports</strong> used to monitor business KPIs and operational performance for stakeholder decision-making.</li>
+        <li>Automated end-to-end ETL workflows using <strong>SQL Server, SSIS, and Power BI</strong>, cutting manual reporting effort by <strong>40%</strong>.</li>
+        <li>Designed optimized <strong>Star Schema data models</strong> and advanced <strong>DAX</strong> calculations, improving dashboard load and refresh performance by <strong>30%</strong>.</li>
+        <li>Integrated and consolidated data from <strong>SQL Server, MySQL, and Excel</strong> into scalable, single-source-of-truth BI solutions.</li>
+        <li>Implemented <strong>Row-Level Security (RLS)</strong> and <strong>Power BI Gateway</strong> to enable secure, governed enterprise-wide reporting access.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="projects" id="projects">
+  <div class="container">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Projects</h2><div class="sec-line"></div></div>
+    <div class="proj-grid">
+
+      <!-- Insurance Analytics — Primerica -->
+      <div class="proj-card">
+        <div class="proj-top"><span class="proj-domain">Insurance</span><span class="proj-period">May 2022 – Aug 2024</span></div>
+        <h3>Insurance Analytics — Primerica</h3>
+        <div class="result-pill">Published live via Power BI Service with RLS</div>
+        <p class="proj-sar"><b>Situation:</b> Policy performance, claims and retention metrics were tracked in disconnected spreadsheets.<br><b>Action:</b> Built executive dashboards for Policy Performance, Claims, Premium Growth, Retention and Loss Ratio on a Star Schema model.<br><b>Result:</b> Governed, secure self-service KPIs via Power BI Service, Row-Level Security and Power BI Gateway.</p>
+        <div class="proj-tags"><span>Power BI</span><span>SQL Server</span><span>DAX</span><span>Power BI Service</span></div>
+        <div class="proj-foot">
+          <a class="proj-btn live" href="insurance-analytics-dashboard.html" target="_blank" rel="noopener">▶ View Live Dashboard</a>
+        </div>
+      </div>
+
+      <!-- Financial Transaction Analytics — Euronet -->
+      <div class="proj-card">
+        <div class="proj-top"><span class="proj-domain">Banking &amp; Payments</span><span class="proj-period">Oct 2024 – Present</span></div>
+        <h3>Financial Transaction Analytics — Euronet</h3>
+        <div class="result-pill">25% faster dashboard refresh</div>
+        <p class="proj-sar"><b>Situation:</b> Reporting on transaction volume, revenue and success rate across payment channels was manual and fragmented.<br><b>Action:</b> Built optimized SQL queries and SSIS ETL pipelines feeding a Star Schema; authored DAX for YTD, MTD, YoY and Rolling Average KPIs.<br><b>Result:</b> Unified operational KPI dashboard with faster, self-service stakeholder reporting.</p>
+        <div class="proj-tags"><span>Power BI</span><span>SQL Server</span><span>SSIS</span><span>DAX</span><span>Power Query</span></div>
+        <div class="proj-foot">
+          <span class="proj-btn soon">🔒 Confidential — case study on request</span>
+        </div>
+      </div>
+
+      <!-- HR / Recruitment Analytics -->
+      <div class="proj-card">
+        <div class="proj-top"><span class="proj-domain">Human Resources</span><span class="proj-period">Personal Project</span></div>
+        <h3>Recruitment Analytics — TalentOS</h3>
+        <div class="result-pill">Full recruitment funnel in one workspace</div>
+        <p class="proj-sar"><b>Situation:</b> Recruiting teams need one place to track pipeline health, sourcing quality and hiring velocity.<br><b>Action:</b> Designed a multi-page analytics workspace covering candidates, job postings, sourcing channels, interviews, offers and team performance.<br><b>Result:</b> A self-service HR dashboard with drill-down KPIs, funnel charts and hiring reports.</p>
+        <div class="proj-tags"><span>Dashboard Design</span><span>KPI Modeling</span><span>Data Visualization</span></div>
+        <div class="proj-foot">
+          <a class="proj-btn live" href="hr-analytics-dashboard.html" target="_blank" rel="noopener">▶ View Live Dashboard</a>
+        </div>
+      </div>
+
+      <!-- Casagrand -->
+      <div class="proj-card">
+        <div class="proj-top"><span class="proj-domain">Real Estate</span><span class="proj-period">Personal Project</span></div>
+        <h3>Sales &amp; Inventory Analytics — Casagrand</h3>
+        <div class="result-pill">Power BI Desktop file (.pbix)</div>
+        <p class="proj-sar"><b>Situation:</b> Real estate sales and inventory data needed a consolidated view for leadership.<br><b>Action:</b> Modeled the data and built a Power BI report covering sales performance, inventory status and unit-level tracking.<br><b>Result:</b> A downloadable Power BI report ready to open in Power BI Desktop.</p>
+        <div class="proj-tags"><span>Power BI</span><span>Data Modeling</span><span>DAX</span></div>
+        <div class="proj-foot">
+          <a class="proj-btn dl" href="casagrand.pbix" download>⬇ Download .pbix</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="edu" id="education">
+  <div class="container">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Education</h2><div class="sec-line"></div></div>
+    <div class="edu-card">
+      <div>
+        <h3>Bachelor of Engineering (B.E.), Electronics and Communication Engineering</h3>
+        <p>Sree Sastha Institute of Engineering and Technology</p>
+      </div>
+      <span class="edu-year">2015 – 2019</span>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="container">
+    <h2>Let's build your next dashboard.</h2>
+    <p>Open to Data Analyst &amp; Power BI Developer roles — Chennai, Tamil Nadu, India.</p>
+    <div class="contact-actions">
+      <a class="btn btn-primary" href="mailto:velarasan.analytics@gmail.com">✉ velarasan.analytics@gmail.com</a>
+      <a class="btn btn-ghost" href="tel:+919025878029">☎ +91 90258 78029</a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Velarasan P — Data Analyst · Power BI Developer · Business Intelligence Analyst</footer>
+
+<script>
+const ctx = document.getElementById('skillRadar');
+new Chart(ctx, {
+  type: 'radar',
+  data: {
+    labels: ['Power BI', 'SQL / T-SQL', 'DAX', 'ETL (SSIS)', 'Data Modeling', 'Python'],
+    datasets: [{
+      label: 'Proficiency',
+      data: [95, 90, 92, 85, 90, 70],
+      borderColor: '#f2b134',
+      backgroundColor: 'rgba(242,177,52,.14)',
+      pointBackgroundColor: '#33c9b0',
+      pointBorderColor: '#33c9b0',
+      pointRadius: 3,
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      r: {
+        angleLines: { color: 'rgba(255,255,255,.08)' },
+        grid: { color: 'rgba(255,255,255,.08)' },
+        pointLabels: { color: '#93a1ac', font: { size: 9, family: "'DM Mono', monospace" } },
+        ticks: { display: false, backdropColor: 'transparent' },
+        min: 0, max: 100
+      }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
